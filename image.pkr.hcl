@@ -14,19 +14,37 @@ packer {
 variable "subnet_id" {
   type        = string
   description = "Development Account OU Public Subnet ID shared by RAM"
-  default     = ""  # Use an empty string or provide a default value
+  default     = ""  
 }
 
 variable "version" {
   type        = string
-  default     = ""  # Use an empty string or provide a default value
+  default     = ""  
   description = "AMI Release version"
 }
 
 variable "vpc_id" {
   type        = string
   description = "Main VPC created in the Network Infrastructure OU"
-  default     = ""  # Use an empty string or provide a default value
+  default     = ""  
+}
+
+variable "secret_key" {
+  type        = string
+  sensitive   = true  
+  description = "Secret key for the application"
+}
+
+variable "db_user" {
+  type        = string
+  sensitive   = true  
+  description = "Database username"
+}
+
+variable "db_password" {
+  type        = string
+  sensitive   = true 
+  description = "Database password"
 }
 
 locals {
