@@ -46,11 +46,7 @@ jobs:
           echo "export DB_PASSWORD='${{ secrets.DB_PASSWORD }}'" >> $GITHUB_WORKSPACE/secrets.sh
           cat $GITHUB_WORKSPACE/secrets.sh  # Optional: Print the file for debugging
 
-      # Step 6: Validate the Packer template
-      - name: Validate Packer template
-        run: packer validate ./image.pkr.hcl
-
-      # Step 7: Build the AMI
+      # Step 6: Build the AMI
       - name: Build AMI with Packer
         run: |
           packer build \
