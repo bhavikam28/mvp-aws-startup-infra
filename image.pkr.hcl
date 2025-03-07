@@ -1,4 +1,3 @@
-
 packer {
   required_plugins {
     amazon = {
@@ -15,38 +14,36 @@ packer {
 variable "subnet_id" {
   type        = string
   description = "Development Account OU Public Subnet ID shared by RAM"
-  default     = " "
+  default     = ""  # Use an empty string or provide a default value
 }
 
 variable "version" {
   type        = string
-  default     = " "
+  default     = ""  # Use an empty string or provide a default value
   description = "AMI Release version"
 }
 
 variable "vpc_id" {
   type        = string
   description = "Main VPC created in the Network Infrastructure OU"
-  default     = " "
+  default     = ""  # Use an empty string or provide a default value
 }
 
 locals {
-  instance_type     = "t2.micro"
-  region            = "us-east-1"
   ami_name          = "fictitious-app-ami"
   source_image_name = "ubuntu/images/*ubuntu-jammy-22.04-amd64-server*"
   source_ami_owners = ["099720109477"]
-  ssh_username      = "ubuntu" 
+  ssh_username      = "ubuntu"
 }
 
 source "amazon-ebs" "ubuntu" {
-  ami_name      = "${local.ami_name}-${local.prefix}-${var.version}"
-  instance_type = local.instance_type
-  region        = local.region
+  ami_name      = "${local.ami_name}-${var.version}"
+  instance_type = "t2.micro"
+  region        = "us-east-1"
 
   source_ami_filter {
     filters = {
-      name                = local.source_image_name
+      name                = local.source_image_name  # Corrected variable name
       root-device-type    = "ebs"
       virtualization-type = "hvm"
     }
@@ -61,7 +58,7 @@ source "amazon-ebs" "ubuntu" {
 }
 
 build {
-  name = "${local.build_name}"
+  name = "custom_ami"
   sources = [
     "source.amazon-ebs.ubuntu"
   ]
@@ -73,9 +70,9 @@ build {
 
   provisioner "shell" {
     inline = [
-      "echo creating app folder...",
+      "echo Moving files...",
       "sudo mkdir -p /opt/app",
-      "sudo mv /tmp/* /opt/app/",
+      "sudo mv /tmp/* /opt/app",
       "sudo chmod +x /opt/app/setup.sh"
     ]
   }
@@ -85,7 +82,7 @@ build {
   }
 
   post-processor "amazon-ami-management" {
-    regions       = [local.region]
+    regions       = ["us-east-1"]  # Consistent with the source region
     identifier    = local.ami_name
     keep_releases = 2
   }
