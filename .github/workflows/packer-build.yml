@@ -5,7 +5,6 @@ on:
     types: [published]  
 
 env:
-  AWS_REGION: "us-east-1"
   PACKER_VERSION: "1.11.2"
 
 jobs:
@@ -36,7 +35,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: us-east-1
 
       # Step 5: Save GitHub Secrets to secrets.sh
       - name: Save secrets to secrets.sh
