@@ -1,0 +1,13 @@
+# OS-generated files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Other
+*.bak
+*.old
+
+# Terraform
+terraform/.terraform/*
+terraform/.terraform
+terraform/terraform.tfstate
