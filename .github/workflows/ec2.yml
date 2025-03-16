@@ -9,10 +9,7 @@ on:
 
 permissions:
   contents: read
-  id-token: write
-
-env:
-  TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}
+  id-token: write  # Required for OIDC authentication
 
 jobs:
   deploy-ec2:
@@ -25,11 +22,16 @@ jobs:
       - name: Repository Checkout
         uses: actions/checkout@v4
 
-      - name: Terraform Setup
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v3
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }} 
+          aws-region: us-east-1
+
+      - name: Set up Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: "1.9.8"
-          cli_config_credentials_token: ${{ env.TF_API_TOKEN }}
 
       - name: Terraform Init
         id: init
@@ -37,12 +39,12 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan  
+        run: terraform plan
 
       - name: Terraform Apply
         if: github.event_name == 'workflow_dispatch'
         id: apply
-        run: terraform apply -auto-approve  
+        run: terraform apply -auto-approve
 
       - name: Public IP Output
         run: |
