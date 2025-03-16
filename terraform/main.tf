@@ -1,11 +1,12 @@
 # Terraform Provider Block
 terraform {
   required_providers {
-    aws = {
+      aws = {
       source  = "hashicorp/aws"
-      version = ">= 5.0, < 6.0"
+      version = "5.76.0"
     }
   }
+
 
   # Remote Backend Configuration
   backend "remote" {
