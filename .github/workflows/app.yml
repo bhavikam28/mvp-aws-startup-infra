@@ -6,10 +6,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-     permissions:
+    permissions:
       id-token: write  # Required for OIDC authentication
       contents: read   # Required to checkout the repository
-      
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
