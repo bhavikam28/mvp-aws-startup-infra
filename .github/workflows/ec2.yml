@@ -14,7 +14,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Configure AWS Credentials
-        uses: aws-actions/configure-aws-credentials@v3
+        uses: aws-actions/configure-aws-credentials@v3git push
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: us-east-1
@@ -25,7 +25,9 @@ jobs:
           terraform_version: 1.5.0
 
       - name: Terraform Init
+        working-directory: ./terraform
         run: terraform init
 
       - name: Terraform Apply
+        working-directory: ./terraform
         run: terraform apply -auto-approve
