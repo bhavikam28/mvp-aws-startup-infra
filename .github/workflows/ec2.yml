@@ -11,8 +11,6 @@ permissions:
   contents: read
   id-token: write  
 
-env:
-  TF_API_TOKEN: ${{ secrets.TF_API_TOKEN }}  
 jobs:
   deploy-ec2:
     name: EC2 Deployment
@@ -34,7 +32,6 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: "1.9.8"
-          cli_config_credentials_token: ${{ env.TF_API_TOKEN }}  
 
       - name: Terraform Init
         id: init
@@ -52,3 +49,8 @@ jobs:
       - name: Public IP Output
         run: |
           echo "Public IP: $(terraform output ec2_public_ip | tr -d '""')"
+
+      - name: Verify SSM Connectivity
+        run: |
+          INSTANCE_ID=$(terraform output ec2_instance_id | tr -d '""')
+          aws ssm describe-instance-information --filters "Key=InstanceIds,Values=$INSTANCE_ID"
