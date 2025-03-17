@@ -27,10 +27,6 @@ resource "aws_instance" "ec2_instance" {
   vpc_security_group_ids = [aws_security_group.ec2_sg.id]
   associate_public_ip_address = true
 
-  tags = {
-    Name = "ec2-instance"
-  }
-
 
   # Attach the IAM Instance Profile for SSM
   iam_instance_profile = aws_iam_instance_profile.ec2_ssm.name
