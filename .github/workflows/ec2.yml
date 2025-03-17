@@ -1,4 +1,4 @@
-name: Connect EC2 via SSM
+name: EC2 via SSM
 
 on:
   workflow_dispatch:
