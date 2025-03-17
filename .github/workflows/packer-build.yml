@@ -46,6 +46,10 @@ jobs:
           echo "export DB_PASSWORD='${{ secrets.DB_PASSWORD }}'" >> $GITHUB_WORKSPACE/secrets.sh
           cat $GITHUB_WORKSPACE/secrets.sh  # Optional: Print the file for debugging
 
+      - name: Copy secrets.sh to EC2 instance
+        run: |
+          scp -i ${{ secrets.SSH_KEY }} $GITHUB_WORKSPACE/secrets.sh ubuntu@${{ secrets.EC2_IP }}:/home/ubuntu/secrets.sh
+
       # Step 6: Build the AMI
       - name: Build AMI with Packer
         run: |

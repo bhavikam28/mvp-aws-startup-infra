@@ -7,7 +7,7 @@ APP_DIR="/opt/app"
 #
 # Relevant link: https://www.geeksforgeeks.org/chown-command-in-linux-with-examples/
 #################################################################################################
-TODO
+sudo chown -R ubuntu:ubuntu $APP_DIR
 
 #################################################################################################
 # Update Ubuntu's package list and install the following dependencies:
@@ -19,14 +19,16 @@ TODO
 # 
 # Relevant link: https://ubuntu.com/server/docs/package-management
 #################################################################################################
-TODO
+sudo apt update -y
+sudo apt install -y python3-pip python3-venv nginx
 
 #################################################################################################
 # Start and enable the PostgreSQL service
 #
 # Relevant link: https://www.digitalocean.com/community/tutorials/how-to-use-systemctl-to-manage-systemd-services-and-units
 #################################################################################################
-TODO
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
 
 #################################################################################################
 # Load the secret values from secrets.sh
