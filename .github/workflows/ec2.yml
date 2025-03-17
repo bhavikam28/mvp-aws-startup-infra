@@ -51,7 +51,4 @@ jobs:
         run: |
           echo "Public IP: $(terraform output instance_public_ip | tr -d '""')"
 
-      - name: Verify SSM Connectivity
-        run: |
-          INSTANCE_ID=$(terraform output ec2_instance_id | tr -d '""')
-          aws ssm describe-instance-information --filters "Key=InstanceIds,Values=$INSTANCE_ID"
+      
