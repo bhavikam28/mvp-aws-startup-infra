@@ -30,4 +30,12 @@ resource "aws_instance" "ec2_instance" {
   tags = {
     Name = "ec2-instance"
   }
+
+
+  # Attach the IAM Instance Profile for SSM
+  iam_instance_profile = aws_iam_instance_profile.ec2_ssm.name
+
+  tags = {
+    Name = "ec2-instance"
+  }
 }
