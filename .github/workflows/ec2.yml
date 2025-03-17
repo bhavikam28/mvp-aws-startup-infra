@@ -49,7 +49,7 @@ jobs:
 
       - name: Public IP Output
         run: |
-          echo "Public IP: $(terraform output ec2_public_ip | tr -d '""')"
+          echo "Public IP: $(terraform output instance_public_ip | tr -d '""')"
 
       - name: Verify SSM Connectivity
         run: |
