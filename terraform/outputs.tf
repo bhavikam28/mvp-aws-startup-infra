@@ -24,4 +24,5 @@ output "rds_endpoint" {
 
 output "rds_username" {
   value = aws_db_instance.mvp_db.username
+  sensitive = true # Mark this output as sensitive
 }
