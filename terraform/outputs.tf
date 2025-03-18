@@ -18,3 +18,10 @@ output "instance_public_ip" {
   value       = aws_instance.ec2_instance.public_ip
 }
 
+output "rds_endpoint" {
+  value = aws_db_instance.mvp_db.endpoint
+}
+
+output "rds_username" {
+  value = aws_db_instance.mvp_db.username
+}

@@ -17,3 +17,20 @@ variable "private_subnets" {
   description = "List of IDs of the private subnets"
   type        = list(string)
 }
+
+
+variable "db_username" {
+  type      = string
+  sensitive = true
+}
+
+variable "db_password" {
+  type      = string
+  sensitive = true
+}
+
+
+variable "ec2_security_group_id" {
+  type        = string
+  description = "The Security Group ID of the EC2 instance"
+}
