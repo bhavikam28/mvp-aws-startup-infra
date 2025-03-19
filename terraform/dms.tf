@@ -14,6 +14,14 @@ resource "aws_dms_replication_instance" "dms_replication_instance" {
   }
 }
 
+# Defined subnet in the specified VPC to create a replication instance
+
+resource "aws_dms_replication_subnet_group" "dms_subnet_group" {
+  replication_subnet_group_id = "dms-subnet-group"
+  replication_subnet_group_description = "DMS subnet group"
+  subnet_ids = var.private_subnets  
+}
+
 # Security Group for DMS Replication Instance
 
 resource "aws_security_group" "dms_sg" {
