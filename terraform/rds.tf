@@ -54,3 +54,15 @@ resource "aws_db_instance" "mvp_db" {
   db_subnet_group_name = aws_db_subnet_group.mvp_db_subnet_group.name
   parameter_group_name = aws_db_parameter_group.mvp_db_parameter_group.name
 }
+
+
+# Allow traffic from the DMS Replication Instance to the RDS instance on port 5432 (PostgreSQL)
+
+resource "aws_security_group_rule" "rds_allow_dms" {
+  type                     = "ingress"
+  from_port                = 5432
+  to_port                  = 5432
+  protocol                 = "tcp"
+  security_group_id        = aws_security_group.rds_sg.id
+  source_security_group_id = aws_security_group.dms_sg.id
+}

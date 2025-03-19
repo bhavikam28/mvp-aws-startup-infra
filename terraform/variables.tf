@@ -29,8 +29,18 @@ variable "db_password" {
   sensitive = true
 }
 
-
 variable "ec2_security_group_id" {
   type        = string
   description = "The Security Group ID of the EC2 instance"
 }
+
+variable "ec2_database_host" {
+  type        = string
+  description = "Hostname or IP of the database running on the EC2 instance"
+}
+
+variable "ec2_database_name" {
+  type        = string
+  description = "Name of the database running on the EC2 instance"
+}
+

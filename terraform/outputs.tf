@@ -26,3 +26,19 @@ output "rds_username" {
   value = aws_db_instance.mvp_db.username
   sensitive = true # Mark this output as sensitive
 }
+
+output "dms_replication_instance_arn" {
+  value = aws_dms_replication_instance.dms_replication_instance.replication_instance_arn
+}
+
+output "source_endpoint_arn" {
+  value = aws_dms_endpoint.source_endpoint.endpoint_arn
+}
+
+output "target_endpoint_arn" {
+  value = aws_dms_endpoint.target_endpoint.endpoint_arn
+}
+
+output "dms_replication_task_arn" {
+  value = aws_dms_replication_task.dms_replication_task.replication_task_arn
+}
