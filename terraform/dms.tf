@@ -4,7 +4,7 @@ resource "aws_dms_replication_instance" "dms_replication_instance" {
   replication_instance_id      = "dms-replication-instance"
   replication_instance_class   = "dms.t2.micro" # Free Tier eligible
   allocated_storage            = 20 # Minimum storage for Free Tier
-  engine_version               = "3.4.7" # Latest DMS version
+  engine_version               = "3.4.6" 
   publicly_accessible          = false
   multi_az                    = false # Single-AZ for Free Tier
   vpc_security_group_ids      = [aws_security_group.dms_sg.id]
