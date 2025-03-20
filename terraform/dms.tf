@@ -1,7 +1,46 @@
+# Security Group for DMS Replication Instance
+resource "aws_security_group" "dms_sg" {
+  name        = "dms-sg"
+  description = "Allow inbound and outbound traffic for DMS Replication Instance"
+  vpc_id      = var.vpc_id
+
+  # Allow inbound PostgreSQL traffic from the EC2 instance
+  ingress {
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [aws_security_group.ec2_sg.id]
+  }
+
+  # Allow inbound PostgreSQL traffic from the RDS instance
+  ingress {
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [aws_security_group.rds_sg.id]
+  }
+
+  # Allow outbound PostgreSQL traffic to the EC2 instance
+  egress {
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [aws_security_group.ec2_sg.id]
+  }
+
+  # Allow outbound PostgreSQL traffic to the RDS instance
+  egress {
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [aws_security_group.rds_sg.id]
+  }
+}
+
 # DMS Replication Instance
 resource "aws_dms_replication_instance" "dms_replication_instance" {
   replication_instance_id      = "dms-replication-instance"
-  replication_instance_class   = "dms.t3.micro" 
+  replication_instance_class   = "dms.t3.micro"
   allocated_storage            = 20 # Minimum storage for Free Tier
   publicly_accessible          = false
   multi_az                    = false # Single-AZ for Free Tier
@@ -18,20 +57,6 @@ resource "aws_dms_replication_subnet_group" "dms_subnet_group" {
   replication_subnet_group_id          = "dms-subnet-group"
   replication_subnet_group_description = "DMS subnet group"
   subnet_ids                           = var.private_subnets
-}
-
-# Security Group for DMS Replication Instance
-resource "aws_security_group" "dms_sg" {
-  name        = "dms-sg"
-  description = "Allow outbound traffic for DMS Replication Instance"
-  vpc_id      = var.vpc_id
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
 }
 
 # Source Endpoint (EC2 Database)

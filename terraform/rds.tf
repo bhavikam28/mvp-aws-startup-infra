@@ -12,22 +12,32 @@ resource "aws_db_parameter_group" "mvp_db_parameter_group" {
 # RDS Subnet Group
 resource "aws_db_subnet_group" "mvp_db_subnet_group" {
   name       = "mvp-db-subnet-group"
-  subnet_ids = var.private_subnets 
+  subnet_ids = var.private_subnets
 }
 
 # RDS Security Group
 resource "aws_security_group" "rds_sg" {
   name        = "rds-sg"
-  description = "Allow inbound PostgreSQL traffic from EC2 instance"
-  vpc_id      = var.vpc_id 
+  description = "Allow inbound PostgreSQL traffic from EC2 and DMS instances"
+  vpc_id      = var.vpc_id
 
+  # Allow PostgreSQL traffic from the EC2 instance
   ingress {
-    from_port   = 5432
-    to_port     = 5432
-    protocol    = "tcp"
-    security_groups = [var.ec2_security_group_id] # Allow traffic from the EC2 instance
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [var.ec2_security_group_id]
   }
 
+  # Allow PostgreSQL traffic from the DMS replication instance
+  ingress {
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [aws_security_group.dms_sg.id]
+  }
+
+  # Allow all outbound traffic (can be restricted further if needed)
   egress {
     from_port   = 0
     to_port     = 0
@@ -53,16 +63,4 @@ resource "aws_db_instance" "mvp_db" {
   vpc_security_group_ids = [aws_security_group.rds_sg.id]
   db_subnet_group_name = aws_db_subnet_group.mvp_db_subnet_group.name
   parameter_group_name = aws_db_parameter_group.mvp_db_parameter_group.name
-}
-
-
-# Allow traffic from the DMS Replication Instance to the RDS instance on port 5432 (PostgreSQL)
-
-resource "aws_security_group_rule" "rds_allow_dms" {
-  type                     = "ingress"
-  from_port                = 5432
-  to_port                  = 5432
-  protocol                 = "tcp"
-  security_group_id        = aws_security_group.rds_sg.id
-  source_security_group_id = aws_security_group.dms_sg.id
 }
