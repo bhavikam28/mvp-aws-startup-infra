@@ -13,7 +13,6 @@ resource "aws_security_group" "dms_sg" {
   }
 }
 
-
 # DMS Replication Instance
 resource "aws_dms_replication_instance" "dms_replication_instance" {
   replication_instance_id      = "dms-replication-instance"
@@ -37,7 +36,6 @@ resource "aws_dms_replication_subnet_group" "dms_subnet_group" {
 }
 
 # Source Endpoint (EC2 Database)
-# Source Endpoint (EC2 Database)
 resource "aws_dms_endpoint" "source_endpoint" {
   endpoint_id   = "source-endpoint"
   endpoint_type = "source"
@@ -51,7 +49,7 @@ resource "aws_dms_endpoint" "source_endpoint" {
 }
 
 # Target Endpoint (RDS Database)
-resource "aws_dms_endpoint" "aws_dms_endpoint_target" {
+resource "aws_dms_endpoint" "target_endpoint" 
   database_name = "mvp"
   endpoint_id   = "rds"
   endpoint_type = "target"
@@ -69,7 +67,7 @@ resource "aws_dms_replication_task" "dms_replication_task" {
   migration_type           = "full-load" # Full-load replication
   replication_instance_arn = aws_dms_replication_instance.dms_replication_instance.replication_instance_arn
   source_endpoint_arn      = aws_dms_endpoint.source_endpoint.endpoint_arn
-  target_endpoint_arn      = aws_dms_endpoint.target_endpoint.endpoint_arn
+  target_endpoint_arn      = aws_dms_endpoint.target_endpoint.endpoint_arn  # Updated reference
   table_mappings           = <<EOF
   {
     "rules": [
