@@ -49,7 +49,7 @@ resource "aws_dms_endpoint" "source_endpoint" {
 }
 
 # Target Endpoint (RDS Database)
-resource "aws_dms_endpoint" "target_endpoint" 
+resource "aws_dms_endpoint" "target_endpoint" {  # Properly formatted block
   database_name = "mvp"
   endpoint_id   = "rds"
   endpoint_type = "target"
