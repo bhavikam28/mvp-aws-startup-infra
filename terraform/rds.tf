@@ -21,7 +21,7 @@ resource "aws_security_group" "rds_sg" {
   description = "Allow inbound PostgreSQL traffic from EC2 and DMS instances"
   vpc_id      = var.vpc_id
 
-  # Allow PostgreSQL traffic from the EC2 instance
+  # Allow PostgreSQL traffic from the EC2 instance (source database)
   ingress {
     from_port       = 5432
     to_port         = 5432

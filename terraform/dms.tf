@@ -1,26 +1,10 @@
 # Security Group for DMS Replication Instance
 resource "aws_security_group" "dms_sg" {
   name        = "dms-sg"
-  description = "Allow inbound and outbound traffic for DMS Replication Instance"
+  description = "Allow outbound traffic for DMS Replication Instance"
   vpc_id      = var.vpc_id
 
-  # Allow inbound PostgreSQL traffic from the EC2 instance
-  ingress {
-    from_port       = 5432
-    to_port         = 5432
-    protocol        = "tcp"
-    security_groups = [aws_security_group.ec2_sg.id]
-  }
-
-  # Allow inbound PostgreSQL traffic from the RDS instance
-  ingress {
-    from_port       = 5432
-    to_port         = 5432
-    protocol        = "tcp"
-    security_groups = [aws_security_group.rds_sg.id]
-  }
-
-  # Allow outbound PostgreSQL traffic to the EC2 instance
+  # Allow outbound PostgreSQL traffic to the EC2 instance (source database)
   egress {
     from_port       = 5432
     to_port         = 5432
@@ -28,7 +12,7 @@ resource "aws_security_group" "dms_sg" {
     security_groups = [aws_security_group.ec2_sg.id]
   }
 
-  # Allow outbound PostgreSQL traffic to the RDS instance
+  # Allow outbound PostgreSQL traffic to the RDS instance (target database)
   egress {
     from_port       = 5432
     to_port         = 5432
@@ -36,6 +20,7 @@ resource "aws_security_group" "dms_sg" {
     security_groups = [aws_security_group.rds_sg.id]
   }
 }
+
 
 # DMS Replication Instance
 resource "aws_dms_replication_instance" "dms_replication_instance" {

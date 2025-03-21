@@ -29,6 +29,7 @@ resource "aws_security_group" "ec2_sg" {
   }
 }
 
+
 # EC2 Instance
 resource "aws_instance" "ec2_instance" {
   ami                    = var.custom_ami_version
