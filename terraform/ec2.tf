@@ -22,6 +22,14 @@ resource "aws_security_group" "ec2_sg" {
     description = "Allow all outbound traffic"
   }
 
+    # Allow PostgreSQL traffic from the DMS replication instance
+  ingress {
+    from_port       = 5432
+    to_port         = 5432
+    protocol        = "tcp"
+    security_groups = [aws_security_group.dms_sg.id]
+  }
+
   tags = {
     Name = "ec2-instance-sg"
   }
