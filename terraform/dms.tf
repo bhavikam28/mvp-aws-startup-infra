@@ -49,9 +49,9 @@ resource "aws_dms_endpoint" "source_endpoint" {
 }
 
 # Target Endpoint (RDS Database)
-resource "aws_dms_endpoint" "target_endpoint" {  # Properly formatted block
+resource "aws_dms_endpoint" "target_endpoint" {  
   database_name = "mvp"
-  endpoint_id   = "rds"
+  endpoint_id   = "source-endpoint"
   endpoint_type = "target"
   engine_name   = "postgres"
   username      = var.db_username
