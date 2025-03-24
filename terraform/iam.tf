@@ -83,7 +83,7 @@ resource "aws_iam_role_policy" "ssm_parameter_access" {
     Statement = [{
       Action   = ["ssm:GetParameter", "ssm:GetParameters"],
       Effect   = "Allow",
-      Resource = "arn:aws:ssm:${var.region}:${data.aws_caller_identity.current.account_id}:parameter/your-app/*"
+      Resource = "arn:aws:ssm:us-east-1:${data.aws_caller_identity.current.account_id}:parameter/your-app/*"
     }]
   })
 }
