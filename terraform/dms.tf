@@ -37,7 +37,7 @@ resource "aws_dms_replication_subnet_group" "dms_subnet_group" {
 
 # Source Endpoint (EC2 Database)
 resource "aws_dms_endpoint" "source_endpoint" {
-  endpoint_id   = "source-endpoint"
+  endpoint_id   = "ec2"
   endpoint_type = "source"
   engine_name   = "postgres" # Specify the database engine (PostgreSQL)
   server_name   = aws_instance.ec2_instance.private_ip  # Use EC2 private IP directly
@@ -51,7 +51,7 @@ resource "aws_dms_endpoint" "source_endpoint" {
 # Target Endpoint (RDS Database)
 resource "aws_dms_endpoint" "target_endpoint" {  
   database_name = "mvp"
-  endpoint_id   = "source-endpoint"
+  endpoint_id   = "rds"
   endpoint_type = "target"
   engine_name   = "postgres"
   username      = var.db_username
