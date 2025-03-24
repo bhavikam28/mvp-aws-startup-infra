@@ -44,3 +44,7 @@ variable "ec2_database_name" {
   description = "Name of the database running on the EC2 instance"
 }
 
+variable "s3_name" {
+  description = "Globally unique name for the S3 bucket"
+  type        = string
+}
