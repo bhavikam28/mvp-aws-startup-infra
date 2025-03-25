@@ -3,9 +3,9 @@ name: Application Deployment
 on:
   workflow_dispatch:
     inputs:
-      ami_version:
+      ami_id:
         required: true
-        description: 'AMI Version'
+        description: 'The exact AMI ID'
 
 permissions:
   contents: read
