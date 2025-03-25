@@ -1,19 +1,19 @@
 resource "aws_ssm_parameter" "db_user" {
   name  = "/cloudtalents/startup/db_user"
   value = var.db_username
-  type  = "SecureString"
+  type  = "String"
 }
 
 resource "aws_ssm_parameter" "db_password" {
   name  = "/cloudtalents/startup/db_password"
   value = var.db_password
-  type  = "SecureString"
+  type  = "String"
 }
 
 resource "aws_ssm_parameter" "secret_key" {
   name  = "/cloudtalents/startup/secret_key"
   value = var.secret_key
-  type  = "SecureString"
+  type  = "String"
 }
 
 resource "aws_ssm_parameter" "database_endpoint" {
