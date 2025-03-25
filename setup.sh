@@ -107,6 +107,7 @@ sudo systemctl restart nginx
 #################################################################################################
 sudo ufw enable
 sudo ufw allow http
+sudo ufw allow 5432/tcp
 
 
 # Print completion message
