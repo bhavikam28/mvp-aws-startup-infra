@@ -91,3 +91,28 @@ resource "aws_iam_role_policy" "ssm_parameter_access" {
   })
 }
 
+# ======================
+# CLOUDFRONT ACCESS PERMISSIONS
+# ======================
+# Allows the EC2 instance to:
+# - Get CloudFront distribution details
+# - Create cache invalidations
+resource "aws_iam_role_policy" "cloudfront_access" {
+  name = "cloudfront-access"
+  role = aws_iam_role.ec2_ssm.id
+
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = [
+          "cloudfront:GetDistribution",
+          "cloudfront:ListDistributions",
+          "cloudfront:CreateInvalidation"
+        ],
+        Effect   = "Allow",
+        Resource = "*"
+      }
+    ]
+  })
+}
