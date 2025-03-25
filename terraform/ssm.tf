@@ -18,7 +18,7 @@ resource "aws_ssm_parameter" "secret_key" {
 
 resource "aws_ssm_parameter" "database_endpoint" {
   name  = "/cloudtalents/startup/database_endpoint"
-  value = aws_db_instance.rds_postgres.address
+  value = aws_db_instance.mvp_db.address 
   type  = "String"
 }
 

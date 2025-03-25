@@ -48,3 +48,10 @@ variable "s3_name" {
   description = "Globally unique name for the S3 bucket"
   type        = string
 }
+
+
+variable "secret_key" {
+  description = "Django secret key"
+  type        = string
+  sensitive   = true
+}
