@@ -38,20 +38,14 @@ resource "aws_iam_instance_profile" "ec2_ssm" {
 }
 
 
-
-
 # ======================
-# S3 BUCKET ACCESS
+# CUSTOMER-MANAGED POLICIES
 # ======================
-# Grants the EC2 instance permissions to:
-# - Upload images (PutObject)
-# - Retrieve images (GetObject)
-# - Delete images (DeleteObject) 
-# - List bucket contents (ListBucket)
-resource "aws_iam_role_policy" "ec2_s3_access" {
-  name = "ec2-s3-access"
-  role = aws_iam_role.ec2_ssm.id
 
+# 1. S3 Access Policy
+resource "aws_iam_policy" "s3_access" {
+  name        = "EC2S3AccessPolicy"
+  description = "Grants S3 access to the startup image bucket"
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
@@ -72,15 +66,10 @@ resource "aws_iam_role_policy" "ec2_s3_access" {
   })
 }
 
-# ======================
-# SSM PARAMETER STORE ACCESS
-# ======================
-# Allows the EC2 instance to read configuration parameters from AWS Systems Manager
-# Used for storing secrets or configuration values securely
-resource "aws_iam_role_policy" "ssm_parameter_access" {
-  name = "ssm-parameter-access"
-  role = aws_iam_role.ec2_ssm.id
-
+# 2. SSM Parameter Access Policy
+resource "aws_iam_policy" "ssm_parameter_access" {
+  name        = "EC2SSMParameterAccessPolicy"
+  description = "Allows read access to SSM Parameter Store"
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [{
@@ -91,16 +80,10 @@ resource "aws_iam_role_policy" "ssm_parameter_access" {
   })
 }
 
-# ======================
-# CLOUDFRONT ACCESS PERMISSIONS
-# ======================
-# Allows the EC2 instance to:
-# - Get CloudFront distribution details
-# - Create cache invalidations
-resource "aws_iam_role_policy" "cloudfront_access" {
-  name = "cloudfront-access"
-  role = aws_iam_role.ec2_ssm.id
-
+# 3. CloudFront Access Policy
+resource "aws_iam_policy" "cloudfront_access" {
+  name        = "EC2CloudFrontAccessPolicy"
+  description = "Grants CloudFront management permissions"
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
@@ -115,4 +98,23 @@ resource "aws_iam_role_policy" "cloudfront_access" {
       }
     ]
   })
+}
+
+# ======================
+# POLICY ATTACHMENTS 
+# ======================
+
+resource "aws_iam_role_policy_attachment" "s3_access" {
+  role       = aws_iam_role.ec2_ssm.name
+  policy_arn = aws_iam_policy.s3_access.arn
+}
+
+resource "aws_iam_role_policy_attachment" "ssm_parameter_access" {
+  role       = aws_iam_role.ec2_ssm.name
+  policy_arn = aws_iam_policy.ssm_parameter_access.arn
+}
+
+resource "aws_iam_role_policy_attachment" "cloudfront_access" {
+  role       = aws_iam_role.ec2_ssm.name
+  policy_arn = aws_iam_policy.cloudfront_access.arn
 }
