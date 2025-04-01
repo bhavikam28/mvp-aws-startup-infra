@@ -43,7 +43,7 @@ Description=gunicorn daemon
 After=network.target
 
 [Service]
-Environment="AWS_DEFAULT_REGION=eu-west-1"
+Environment="AWS_DEFAULT_REGION=us-east-1"
 User=$USER
 Group=www-data
 WorkingDirectory=$APP_DIR
