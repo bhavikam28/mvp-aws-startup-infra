@@ -5,6 +5,11 @@ resource "aws_launch_template" "startup_template" {
   image_id      = var.custom_ami_version
   instance_type = "t2.micro"
 
+   # SSM access via IAM instance profile
+  iam_instance_profile {
+    name = aws_iam_instance_profile.ec2_ssm_profile.name
+  }
+
   # Required detailed monitoring
   monitoring {
     enabled = true
