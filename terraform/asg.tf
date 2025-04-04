@@ -25,8 +25,8 @@ resource "aws_autoscaling_group" "startup_asg" {
   max_size         = 5  # Required maximum
   desired_capacity = 1  # Initial capacity
 
-  # Subnet selection (using your existing data source)
-  vpc_zone_identifier = [data.tfe_outputs.network.values.public_subnet[1]]
+  # Subnet selection 
+  vpc_zone_identifier = var.public_subnets 
 
   launch_template {
     id      = aws_launch_template.startup_template.id
