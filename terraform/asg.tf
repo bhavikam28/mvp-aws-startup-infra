@@ -2,7 +2,7 @@
 # LAUNCH TEMPLATE CONFIG
 # ======================
 resource "aws_launch_template" "startup_template" {
-  image_id      = data.aws_ami.custom_ami.id  
+  image_id      = var.custom_ami_version
   instance_type = "t2.micro"
 
   # Required detailed monitoring
