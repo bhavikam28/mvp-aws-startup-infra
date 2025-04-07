@@ -36,17 +36,17 @@ resource "aws_dms_replication_subnet_group" "dms_subnet_group" {
 }
 
 # Source Endpoint (EC2 Database)
-resource "aws_dms_endpoint" "source_endpoint" {
-  endpoint_id   = "ec2"
-  endpoint_type = "source"
-  engine_name   = "postgres" # Specify the database engine (PostgreSQL)
-  server_name   = aws_instance.ec2_instance.private_ip  # Use EC2 private IP directly
-  port          = 5432
-  username      = var.db_username
-  password      = var.db_password
-  database_name = var.ec2_database_name # Replace with the EC2 database name
-  ssl_mode      = "none"  # Explicitly set SSL mode
-}
+# resource "aws_dms_endpoint" "source_endpoint" {
+ #  endpoint_id   = "ec2"
+ #  endpoint_type = "source"
+ #  engine_name   = "postgres" # Specify the database engine (PostgreSQL)
+ #  server_name   = aws_instance.ec2_instance.private_ip  # Use EC2 private IP directly
+ #  port          = 5432
+ #  username      = var.db_username
+ #  password      = var.db_password
+ #  database_name = var.ec2_database_name # Replace with the EC2 database name
+ #  ssl_mode      = "none"  # Explicitly set SSL mode
+# }
 
 # Target Endpoint (RDS Database)
 resource "aws_dms_endpoint" "target_endpoint" {  
@@ -62,26 +62,26 @@ resource "aws_dms_endpoint" "target_endpoint" {
 }
 
 # DMS Replication Task
-resource "aws_dms_replication_task" "dms_replication_task" {
-  replication_task_id      = "dms-replication-task"
-  migration_type           = "full-load" # Full-load replication
-  replication_instance_arn = aws_dms_replication_instance.dms_replication_instance.replication_instance_arn
-  source_endpoint_arn      = aws_dms_endpoint.source_endpoint.endpoint_arn
-  target_endpoint_arn      = aws_dms_endpoint.target_endpoint.endpoint_arn  # Updated reference
-  table_mappings           = <<EOF
-  {
-    "rules": [
-      {
-        "rule-type": "selection",
-        "rule-id": "1",
-        "rule-name": "1",
-        "object-locator": {
-          "schema-name": "public",
-          "table-name": "%"
-        },
-        "rule-action": "include"
-      }
-    ]
-  }
-  EOF
-}
+# resource "aws_dms_replication_task" "dms_replication_task" {
+ # replication_task_id      = "dms-replication-task"
+ # migration_type           = "full-load" # Full-load replication
+ # replication_instance_arn = aws_dms_replication_instance.dms_replication_instance.replication_instance_arn
+ # source_endpoint_arn      = aws_dms_endpoint.source_endpoint.endpoint_arn
+ # target_endpoint_arn      = aws_dms_endpoint.target_endpoint.endpoint_arn  # Updated reference
+ # table_mappings           = <<EOF
+ # {
+ #   "rules": [
+ #     {
+ #       "rule-type": "selection",
+ #       "rule-id": "1",
+ #       "rule-name": "1",
+ #       "object-locator": {
+ #         "schema-name": "public",
+ #         "table-name": "%"
+ #       },
+ #       "rule-action": "include"
+ #     }
+ #   ]
+ # }
+ # EOF
+# }
