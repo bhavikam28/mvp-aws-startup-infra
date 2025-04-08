@@ -47,18 +47,18 @@ resource "aws_dms_replication_subnet_group" "dms_subnet_group" {
 }
 
 # Source Endpoint (EC2 Database)
- resource "aws_dms_endpoint" "source_endpoint" {
-   count         = 0  
-   endpoint_id   = "ec2"
-   endpoint_type = "source"
-   engine_name   = "postgres" # Specify the database engine (PostgreSQL)
-   server_name   = aws_instance.ec2_instance.private_ip  # Use EC2 private IP directly
-   port          = 5432
-   username      = var.db_username
-   password      = var.db_password
-   database_name = var.ec2_database_name # Replace with the EC2 database name
-   ssl_mode      = "none"  # Explicitly set SSL mode
- }
+# resource "aws_dms_endpoint" "source_endpoint" {
+ #  count         = 0  
+ #  endpoint_id   = "ec2"
+ #  endpoint_type = "source"
+ #  engine_name   = "postgres" # Specify the database engine (PostgreSQL)
+ #  server_name   = aws_instance.ec2_instance.private_ip  # Use EC2 private IP directly
+ #  port          = 5432
+ #  username      = var.db_username
+ #  password      = var.db_password
+ # database_name = var.ec2_database_name # Replace with the EC2 database name
+ #  ssl_mode      = "none"  # Explicitly set SSL mode
+#}
 
 # Target Endpoint (RDS Database)
 resource "aws_dms_endpoint" "target_endpoint" {  

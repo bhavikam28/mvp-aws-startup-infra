@@ -33,8 +33,8 @@ resource "aws_security_group" "rds_sg" {
   ingress {
     from_port       = 5432
     to_port         = 5432
-    protocol        = "tcp"
-    security_groups = [aws_security_group.dms_sg.id]
+   protocol        = "tcp"
+    security_groups = [aws_security_group.dms_sg[0].id]
   }
 
   # Allow all outbound traffic (can be restricted further if needed)
