@@ -75,27 +75,27 @@ resource "aws_dms_endpoint" "target_endpoint" {
 }
 
 # DMS Replication Task
- resource "aws_dms_replication_task" "dms_replication_task" {
-  count                    = 0
-  replication_task_id      = "dms-replication-task"
-  migration_type           = "full-load" # Full-load replication
-  replication_instance_arn = aws_dms_replication_instance.dms_replication_instance[0].replication_instance_arn
-  source_endpoint_arn      = aws_dms_endpoint.source_endpoint[0].endpoint_arn
-  target_endpoint_arn      = aws_dms_endpoint.target_endpoint[0].endpoint_arn  # Updated reference
-  table_mappings           = <<EOF
-  {
-    "rules": [
-      {
-        "rule-type": "selection",
-        "rule-id": "1",
-        "rule-name": "1",
-        "object-locator": {
-          "schema-name": "public",
-          "table-name": "%"
-        },
-        "rule-action": "include"
-      }
-    ]
-  }
-  EOF
- }
+# resource "aws_dms_replication_task" "dms_replication_task" {
+ # count                    = 0
+ # replication_task_id      = "dms-replication-task"
+ # migration_type           = "full-load" # Full-load replication
+ # replication_instance_arn = aws_dms_replication_instance.dms_replication_instance[0].replication_instance_arn
+ # source_endpoint_arn      = aws_dms_endpoint.source_endpoint[0].endpoint_arn
+ # target_endpoint_arn      = aws_dms_endpoint.target_endpoint[0].endpoint_arn  # Updated reference
+ # table_mappings           = <<EOF
+ # {
+  #  "rules": [
+  #   {
+  #      "rule-type": "selection",
+  #     "rule-id": "1",
+  #      "rule-name": "1",
+  #      "object-locator": {
+  #        "schema-name": "public",
+  #        "table-name": "%"
+  #      },
+  #      "rule-action": "include"
+  #    }
+  # ]
+ # }
+ # EOF
+# }
