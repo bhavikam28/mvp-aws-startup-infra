@@ -1,7 +1,7 @@
 # Security Group for EC2 Instance (updated for ALB traffic)
 resource "aws_security_group" "ec2_sg" {
   name        = "ec2-instance-sg"
-  description = "Allow HTTP from ALB + PostgreSQL from DMS"
+  description = "Allow HTTP from ALB"
   vpc_id      = var.vpc_id
 
   # Allow HTTP traffic ONLY from the ALB (not 0.0.0.0/0)
@@ -22,12 +22,12 @@ resource "aws_security_group" "ec2_sg" {
   }
 
     # Allow PostgreSQL traffic from the DMS replication instance
-  ingress {
-    from_port       = 5432
-    to_port         = 5432
-    protocol        = "tcp"
-    security_groups = [aws_security_group.dms_sg.id]
-  }
+#  ingress {
+ #   from_port       = 5432
+ #   to_port         = 5432
+ #   protocol        = "tcp"
+ #   security_groups = [aws_security_group.dms_sg.id]
+ # }
 
   tags = {
     Name = "ec2-instance-sg"
