@@ -29,6 +29,9 @@ resource "aws_autoscaling_group" "startup_asg" {
   min_size         = 1  # Required minimum
   max_size         = 5  # Required maximum
   desired_capacity = 1  # Initial capacity
+  
+  # Explicit dependency declaration
+  depends_on = [aws_security_group.ec2_sg]
 
   # Subnet selection 
   vpc_zone_identifier = var.public_subnets 

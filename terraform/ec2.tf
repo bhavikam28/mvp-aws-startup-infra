@@ -28,6 +28,11 @@ resource "aws_security_group" "ec2_sg" {
  #   protocol        = "tcp"
  #   security_groups = [aws_security_group.dms_sg.id]
  # }
+  
+  
+  lifecycle {
+    prevent_destroy = true # Block ALL deletion attempts
+  }
 
   tags = {
     Name = "ec2-instance-sg"
