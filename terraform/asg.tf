@@ -12,7 +12,7 @@ resource "aws_launch_template" "startup_template" {
 
   # Required detailed monitoring
   monitoring {
-    enabled = true
+    enabled = false
   }
 
   # Network config with public IP and your security group
