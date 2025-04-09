@@ -16,10 +16,11 @@ resource "aws_lb" "startup_alb" {
 
 # Target Group (with proper health checks)
 resource "aws_lb_target_group" "alb_tg" {
-  port     = 80
-  protocol = "HTTP"
-  vpc_id   = var.vpc_id
-
+  port                          = 80
+  protocol                      = "HTTP"
+  vpc_id                        = var.vpc_id
+  load_balancing_algorithm_type = "least_outstanding_requests"
+  
   health_check {
     path                = "/"           # Critical for health checks!
     timeout             = 15            # How long to wait for a response
