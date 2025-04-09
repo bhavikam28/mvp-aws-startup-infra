@@ -1,11 +1,12 @@
 # Security Group for EC2 Instance (used by both ALB and EC2)
 resource "aws_security_group" "ec2_sg" {
   name        = "ec2-instance-sg"
-  description = "Allow HTTP from ALB"
+  description = "Allow HTTP traffic"
   vpc_id      = var.vpc_id
 
   # Allow public HTTP to ALB (since ALB uses this SG)
   ingress {
+    description = "Allow HTTP access"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -20,18 +21,26 @@ resource "aws_security_group" "ec2_sg" {
     cidr_blocks = ["0.0.0.0/0"]
     description = "Allow all outbound traffic"
   }
+  
+ # COMMENTED OUT - DMS PostgreSQL rule (since DMS is disabled)
+  # ingress {
+  #   description     = "PostgreSQL from DMS"
+  #   from_port       = 5432
+  #   to_port         = 5432
+  #   protocol        = "tcp"
+  #   security_groups = [aws_security_group.dms_sg[0].id]
+  # }
 
-    # Allow PostgreSQL traffic from the DMS replication instance
-#  ingress {
- #   from_port       = 5432
- #   to_port         = 5432
- #   protocol        = "tcp"
- #   security_groups = [aws_security_group.dms_sg.id]
- # }
-  
-  
+
   lifecycle {
     prevent_destroy = true # Block ALL deletion attempts
+
+  ignore_changes = [
+      description,  # Prevents replacement if description changes
+      name,         # Prevents replacement if name changes
+      ingress,      # Allows rule updates without replacement
+      egress        # Allows rule updates without replacement
+    ]
   }
 
   tags = {
