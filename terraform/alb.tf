@@ -1,35 +1,10 @@
-# ALB Security Group 
-resource "aws_security_group" "alb_sg" {
-  name        = "alb-sg"
-  description = "Allow HTTP to ALB"
-  vpc_id      = var.vpc_id
-
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]  # Allow public HTTP
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]  # Allow ALB to forward traffic
-  }
-
-  tags = {
-    Name = "alb-sg"
-  }
-}
-
-# Application Load Balancer
+# Application Load Balancer resource
 resource "aws_lb" "startup_alb" {
   name               = "startup-alb"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = [aws_security_group.alb_sg.id]
-  subnets            = var.public_subnets  # Better than hardcoded subnets
+  security_groups    = [aws_security_group.ec2_sg.id] 
+  subnets            = var.public_subnets  
   
   enable_cross_zone_load_balancing = true            # Ensures traffic is evenly distributed across AZs
   enable_deletion_protection       = false           # Good for testing

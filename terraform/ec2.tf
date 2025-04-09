@@ -1,18 +1,26 @@
-# Security Group for EC2 Instance (updated for ALB traffic)
+# Security Group for EC2 Instance (used by both ALB and EC2)
 resource "aws_security_group" "ec2_sg" {
   name        = "ec2-instance-sg"
   description = "Allow HTTP from ALB"
   vpc_id      = var.vpc_id
 
-  # Allow HTTP traffic ONLY from the ALB (not 0.0.0.0/0)
+  # Allow public HTTP to ALB (since ALB uses this SG)
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    security_groups = [aws_security_group.alb_sg.id]  # Restrict to ALB
+    cidr_blocks = ["0.0.0.0/0"]  # Public access to ALB
   }
 
-  # Allow all outbound traffic (required by assignment)
+  # Allow internal ALB→EC2 traffic 
+  ingress {
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = [aws_security_group.ec2_sg.id]  
+  }
+
+  # Allow all outbound traffic 
   egress {
     from_port   = 0
     to_port     = 0

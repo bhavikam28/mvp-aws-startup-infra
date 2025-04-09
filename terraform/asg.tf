@@ -18,7 +18,7 @@ resource "aws_launch_template" "startup_template" {
   # Network config with public IP and your security group
   network_interfaces {
     associate_public_ip_address = true
-    security_groups             = [aws_security_group.ec2_sg.id]  # Updated SG
+    security_groups             = [aws_security_group.ec2_sg.id]  
   }
 }
 
