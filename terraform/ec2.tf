@@ -30,9 +30,9 @@ resource "aws_security_group" "ec2_sg" {
  # }
   
   
-  lifecycle {
-    prevent_destroy = true # Block ALL deletion attempts
-  }
+ # lifecycle {
+ #   prevent_destroy = true # Block ALL deletion attempts
+ # }
 
   tags = {
     Name = "ec2-instance-sg"
