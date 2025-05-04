@@ -55,3 +55,8 @@ variable "secret_key" {
   type        = string
   sensitive   = true
 }
+
+variable "CloudWatchAgentServerPolicy_arn" {
+  description = "ARN of AWS managed CloudWatchAgentServerPolicy"
+  default     = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+}

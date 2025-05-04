@@ -118,3 +118,12 @@ resource "aws_iam_role_policy_attachment" "cloudfront_access" {
   role       = aws_iam_role.ec2_ssm.name
   policy_arn = aws_iam_policy.cloudfront_access.arn
 }
+
+
+# ======================
+# ATTACHING AWS MANAGED POLICY FOR CLOUDWATCH AGENT
+# ======================
+resource "aws_iam_role_policy_attachment" "cw-policy-attach" {
+  role       = aws_iam_role.ec2_ssm.name
+  policy_arn = var.CloudWatchAgentServerPolicy_arn
+}
