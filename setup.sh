@@ -133,7 +133,7 @@ sudo cat > $APP_DIR/cloudwatch-config.json <<EOF
 {
   "agent": {
      "metrics_collection_interval": 60,
-     "region": "eu-west-1"
+     "region": "us-east-1"
     },
   "metrics": {
       "append_dimensions": {
