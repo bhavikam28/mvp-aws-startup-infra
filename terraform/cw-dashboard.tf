@@ -1,7 +1,10 @@
+# This code creates a CloudWatch dashboard with various widgets to monitor EC2 and RDS instances.
+
 resource "aws_cloudwatch_dashboard" "startup" {
   dashboard_name = "Startup-Monitoring-Dashboard"
   dashboard_body = jsonencode({
-
+ 
+{
     "widgets": [
         {
             "height": 6,
@@ -150,8 +153,50 @@ resource "aws_cloudwatch_dashboard" "startup" {
                 "region": "us-east-1",
                 "period": 300
             }
+        },
+        {
+            "height": 6,
+            "width": 6,
+            "y": 12,
+            "x": 0,
+            "type": "metric",
+            "properties": {
+                "view": "gauge",
+                "metrics": [
+                    [ "AWS/AutoScaling", "GroupInServiceCapacity", "AutoScalingGroupName", "terraform-20250407205051064700000003" ]
+                ],
+                "region": "us-east-1",
+                "yAxis": {
+                    "left": {
+                        "min": 1,
+                        "max": 5
+                    }
+                },
+                "annotations": {
+                    "horizontal": [
+                        {
+                            "color": "#d62728",
+                            "label": "Critical",
+                            "value": 1,
+                            "fill": "below"
+                        },
+                        {
+                            "color": "#2ca02c",
+                            "label": "Healthy",
+                            "value": 1,
+                            "fill": "above"
+                        },
+                        {
+                            "color": "#1f77b4",
+                            "label": "Max Capacity",
+                            "value": 5
+                        }
+                    ]
+                }
+            }
         }
     ]
 }
-) 
+
+  })
 }
