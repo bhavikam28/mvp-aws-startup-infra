@@ -3,7 +3,7 @@
 resource "aws_cloudwatch_dashboard" "startup" {
   dashboard_name = "Startup-Monitoring-Dashboard"
   dashboard_body = jsonencode({
-    "widgets": [
+    widgets = [
         {
             "height": 6,
             "width": 6,
