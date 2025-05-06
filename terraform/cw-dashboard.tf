@@ -3,8 +3,6 @@
 resource "aws_cloudwatch_dashboard" "startup" {
   dashboard_name = "Startup-Monitoring-Dashboard"
   dashboard_body = jsonencode({
- 
-{
     "widgets": [
         {
             "height": 6,
@@ -191,12 +189,10 @@ resource "aws_cloudwatch_dashboard" "startup" {
                             "label": "Max Capacity",
                             "value": 5
                         }
-                    ]
-                }
-            }
+            ]
+          }
         }
+      }
     ]
-}
-
   })
 }
