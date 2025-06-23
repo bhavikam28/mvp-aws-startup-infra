@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:16.4
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - ./.env
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-django_user} -d ${POSTGRES_DB:-mvp}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+
+  web:
+    build: .
+    command: gunicorn cloudtalents.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - static_volume:/opt/app/cloudtalents/static
+      - media_volume:/opt/app/media
+    env_file:
+      - ./.env
+    depends_on:
+      db:
+        condition: service_healthy                                                                                                                         
+
+
+  nginx:
+    build: ./nginx
+    volumes:
+      - static_volume:/opt/app/cloudtalents/static
+      - media_volume:/opt/app/media
+    ports:
+      - "127.0.0.1:80:80"
+    env_file:
+      - ./.env
+    depends_on:
+      - web
+
+
+volumes:
+  postgres_data:
+  static_volume:
+  media_volume:       
+
+    
