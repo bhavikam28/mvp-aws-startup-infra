@@ -134,7 +134,7 @@ Explore the complete implementation and real-world use cases:
 
 ---
 
-## 🪪 License
+## License
 
 **MIT © [Bhavika Mantri](https://technestbybhavika.com)** — Free to use, fork, and build upon.
 
