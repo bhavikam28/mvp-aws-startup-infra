@@ -1,10 +1,10 @@
-# 🚀 MVP AWS Startup: Scalable, Secure, Observable Django on AWS
+# MVP AWS Startup: Scalable, Secure, Observable Django on AWS
 
 Welcome to the MVP AWS Startup repository — a fully automated, production-grade deployment of a Django web application on AWS. This project demonstrates end-to-end infrastructure automation, observability, security, and scalability using EC2, Terraform, GitHub Actions, and more.
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
 - [Architecture Overview](#architecture-overview)
 - [Key Features](#key-features)
@@ -18,7 +18,7 @@ Welcome to the MVP AWS Startup repository — a fully automated, production-grad
 
 ---
 
-## 🌐 Architecture Overview
+## Architecture Overview
 
 This project implements an EC2-based Django application deployment backed by:
 
@@ -29,11 +29,9 @@ This project implements an EC2-based Django application deployment backed by:
 - Secrets managed via **SSM Parameter Store**
 - Logging, metrics, and alarms with **CloudWatch**
 
-![Architecture](./assets/architecture.png)
-
 ---
 
-## ✨ Key Features
+## Key Features
 
 - Django + PostgreSQL web application (Gunicorn + Nginx)
 - Immutable AMI builds with **HashiCorp Packer**
@@ -47,7 +45,7 @@ This project implements an EC2-based Django application deployment backed by:
 
 ---
 
-## 🧱 Tech Stack
+## Tech Stack
 
 | Category         | Tools & Services                                        |
 |------------------|---------------------------------------------------------|
@@ -63,7 +61,7 @@ This project implements an EC2-based Django application deployment backed by:
 
 ---
 
-## 💻 Setup & Local Development
+## Setup & Local Development
 
 ```bash
 git clone https://github.com/bhavikam28/mvp-aws-startup-infra.git
@@ -73,3 +71,70 @@ source venv/bin/activate
 pip install -r requirements.txt
 python manage.py runserver
 ```
+🔐 **Update environment variables, secrets, and `settings.py` as required.**
+
+---
+
+## CI/CD Workflow
+
+### 1. Build AMI with Packer
+- Triggered on new GitHub release
+- Installs Django app, dependencies, Nginx, Gunicorn, CloudWatch Agent
+
+### 2. Provision Infrastructure with Terraform
+- Deploys EC2 with Auto Scaling Group (ASG)
+- Sets up Application Load Balancer (ALB)
+- Creates IAM roles, security groups, and VPC networking components
+
+### 3. Secrets & Configuration
+- Uses **SSM Parameter Store** for secure secrets management
+- Injects app configuration into EC2 instances via **User Data**
+
+---
+
+## Infrastructure Breakdown
+
+### EC2 + ASG + ALB
+- Custom AMIs launched into **Auto Scaling Group**
+- **ALB** routes external traffic to instances
+- Zero-downtime deployment using rolling updates
+
+### PostgreSQL (RDS)
+- AWS-managed PostgreSQL instance
+- Migrated using **AWS Database Migration Service (DMS)**
+
+### Storage
+- Uploaded media/images stored in **Amazon S3**
+- Delivered globally via **CloudFront CDN**
+
+### Security
+- IAM roles with **least-privilege access**
+- EC2 access through **SSM Session Manager** (no SSH needed)
+
+---
+
+## Monitoring & Observability
+
+- **CloudWatch Dashboards** for EC2, ALB, and RDS
+- **CloudWatch Agent** collects memory, CPU, and disk metrics
+- Log-based metric filters (e.g., image upload events)
+- **SNS Alerts** for high CPU/memory or app failures
+- Full observability provisioned via **Terraform**
+
+---
+
+## Published Articles
+
+Explore the complete implementation and real-world use cases:
+
+- [Launching MVP with Automated Infrastructure (Packer, Terraform, AWS SSM)](https://towardsaws.com/launching-mvp-with-automated-infrastructure-packer-amis-terraform-aws-ssm-ba77d9aac3a2)
+- [From EC2 to AWS Managed Services — Migrating to RDS with DMS](https://towardsaws.com/from-ec2-to-aws-managed-services-migrating-to-aws-rds-with-dms-d16eb89605f3)
+- [How I Scaled to 250+ Concurrent Users: Load Testing + ASG + ALB](https://towardsaws.com/how-i-scaled-to-250-concurrent-users-on-aws-load-testing-auto-scaling-load-balancing-37a591eac6f6)
+- [Building Proactive Monitoring on AWS with EC2 + CloudWatch + Terraform](https://towardsaws.com/building-proactive-monitoring-on-aws-with-ec2-cloudwatch-terraform-from-setup-scripts-to-71bdc0e4a7dc)
+
+---
+
+## 🪪 License
+
+**MIT © [Bhavika Mantri](https://technestbybhavika.com)** — Free to use, fork, and build upon.
+
