@@ -1,46 +1,75 @@
-# Fictitious Startup v1
+# 🚀 MVP AWS Startup: Scalable, Secure, Observable Django on AWS
 
-Welcome to the project "Fictitious Startup v1" designed for participants of the [AWS DevOps Bootcamp](https://www.skool.com/cloudtalents/about) offered by the Cloud Talents community!
+Welcome to the MVP AWS Startup repository — a fully automated, production-grade deployment of a Django web application on AWS. This project demonstrates end-to-end infrastructure automation, observability, security, and scalability using EC2, Terraform, GitHub Actions, and more.
 
-This repository contains a Django application that participants develop and deploy to AWS in the EC2-based section of the bootcamp.
+---
 
-## Table of Contents
+## 📑 Table of Contents
 
-- [How this project works](#how-this-project-works)
-- [What you are seeing now](#what-you-are-seeing-now)
-- [Contributing](#contributing)
+- [Architecture Overview](#architecture-overview)
+- [Key Features](#key-features)
+- [Tech Stack](#tech-stack)
+- [Setup & Local Development](#setup--local-development)
+- [CI/CD Workflow](#cicd-workflow)
+- [Infrastructure Breakdown](#infrastructure-breakdown)
+- [Monitoring & Observability](#monitoring--observability)
+- [Published Articles](#published-articles)
 - [License](#license)
 
-## How this project works
+---
 
-The [AWS DevOps Bootcamp](https://www.skool.com/cloudtalents/about) is a training with a project-first approach.
+## 🌐 Architecture Overview
 
-This means that participants learn by building projects instead of watching videos.
+This project implements an EC2-based Django application deployment backed by:
 
-But instead of building various simple and disconnected projects, they work on hands-on assignments that take an application from MVP to production-ready.
+- Immutable AMIs built with **Packer**
+- Infrastructure provisioning via **Terraform**
+- GitHub Actions CI/CD with **OIDC authentication** to AWS
+- Auto Scaling and Load Balancing via **ALB + ASG**
+- Secrets managed via **SSM Parameter Store**
+- Logging, metrics, and alarms with **CloudWatch**
 
-And this application is one of them.
+![Architecture](./assets/architecture.png)
 
-It's used as the basis for the EC2 section of the bootcamp.
+---
 
-The [main repository](https://github.com/cloudtalents/fictitious-startup-v1) provides participants with a MVP version of the application.
+## ✨ Key Features
 
-Participants fork the main repository and work on the assignments until the application reaches a more mature state.
+- Django + PostgreSQL web application (Gunicorn + Nginx)
+- Immutable AMI builds with **HashiCorp Packer**
+- Infrastructure as Code using **Terraform**
+- Automated CI/CD pipeline with **GitHub Actions**
+- Secure, scalable deployments with **ASG** and **ALB**
+- Centralized logging and custom metrics using **CloudWatch Agent**
+- Secrets management via **SSM Parameter Store**
+- Database hosted on **Amazon RDS**, migrated using **AWS DMS**
+- Load testing using **Locust**
 
-The goal is to give them the opportunity of following the whole lifecycle of an server-based application.
+---
 
-The bootcamp can be found here: [AWS DevOps Bootcamp](https://www.skool.com/cloudtalents/about)
+## 🧱 Tech Stack
 
-## What you are seeing now
+| Category         | Tools & Services                                        |
+|------------------|---------------------------------------------------------|
+| Framework        | Django (Python)                                         |
+| Web Server       | Gunicorn + Nginx                                        |
+| Infrastructure   | Terraform, Packer                                       |
+| CI/CD            | GitHub Actions (OIDC Auth)                              |
+| Cloud Services   | AWS (EC2, ALB, ASG, RDS, S3, CloudFront, SSM)           |
+| Monitoring       | CloudWatch Dashboards, Logs, SNS                        |
+| Secrets          | SSM Parameter Store                                     |
+| DB Migration     | AWS Database Migration Service (DMS)                    |
+| Load Testing     | Locust                                                  |
 
-If you are reading this in the main repository, you will be seeing the MVP application.
+---
 
-If you are reading this in one of the participants repositories, you will be seeing the results of their assignments.
+## 💻 Setup & Local Development
 
-## Contributing
-
-Contributions are welcome! Please open an issue or submit a pull request for any improvements.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+```bash
+git clone https://github.com/bhavikam28/mvp-aws-startup-infra.git
+cd mvp-aws-startup-infra
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+python manage.py runserver
+```
